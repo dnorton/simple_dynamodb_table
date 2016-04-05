@@ -1,0 +1,32 @@
+buildscript {
+    ext.kotlin_version = '1.0.1-2'
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:0.5.4.RELEASE"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: "io.spring.dependency-management"
+apply plugin: "java"
+apply plugin: "kotlin"
+
+repositories {
+    mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'com.amazonaws:aws-java-sdk-bom:1.10.47'
+    }
+}
+
+dependencies {
+    compile 'com.amazonaws:aws-java-sdk-s3'
+    compile 'com.amazonaws:aws-java-sdk-dynamodb'
+    testCompile 'junit:junit:4.11'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
