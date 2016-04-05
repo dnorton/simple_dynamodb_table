@@ -8,7 +8,12 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB
  * Created by dnorton on 4/4/16.
  */
 fun main(args : Array <String>) {
-    val dynamoDB = DynamoDB(AmazonDynamoDBClient(ProfileCredentialsProvider()))
+
+    val dbClient = AmazonDynamoDBClient()
+            dbClient.setEndpoint("http://localhost:8000")
+
+//    val dynamoDB = DynamoDB(AmazonDynamoDBClient(ProfileCredentialsProvider()))
+    val dynamoDB = DynamoDB(dbClient)
     println(dynamoDB)
 
     /**
