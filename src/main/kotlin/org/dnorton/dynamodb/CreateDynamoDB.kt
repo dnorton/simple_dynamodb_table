@@ -31,7 +31,12 @@ fun main(args : Array <String>) {
      * rating: number (1-5) -- based on perceived value
      * notes: String
      **/
+
+
     val tableName = "Workouts"
+    deleteTable(tableName)
+
+    // create Workouts table
 
     val attributeDefinitions =
             ArrayList<AttributeDefinition>()
@@ -54,7 +59,34 @@ fun main(args : Array <String>) {
 
     val table = dynamoDB.createTable(createTableRequest)
 
-    val tableDescription = table.waitForActive()
-    println(tableDescription.toString())
+    val workoutTableDescription = table.waitForActive()
+    println(workoutTableDescription.tableStatus)
+
+}
+
+/**
+ * Delete the table with tableName
+ */
+fun deleteTable(tableName: String) : Boolean {
+
+    val dbClient = AmazonDynamoDBClient()
+    dbClient.setEndpoint("http://localhost:8000")
+
+    //    val dynamoDB = DynamoDB(AmazonDynamoDBClient(ProfileCredentialsProvider()))
+    val dynamoDB = DynamoDB(dbClient)
+    val table = dynamoDB.getTable(tableName)
+
+    dynamoDB.listTables().forEach { listTable ->
+        if (listTable.tableName.equals(tableName)) {
+            listTable.delete()
+            listTable.waitForDelete()
+        }
+    }
+
+    return !dynamoDB.listTables().contains(table)
+
+}
+
+fun createTable(tableName : String, hashKey : String, rangeKey: String? = null) {
 
 }
