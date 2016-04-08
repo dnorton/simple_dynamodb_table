@@ -20,6 +20,7 @@ fun main(args : Array <String>) {
 
     /**
      * Create a workouts table
+     * http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/JavaDocumentAPIWorkingWithTables.html
      *
      * Workouts
      *
